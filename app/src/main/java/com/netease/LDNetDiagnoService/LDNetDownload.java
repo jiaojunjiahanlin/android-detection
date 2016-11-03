@@ -3,11 +3,19 @@ package com.netease.LDNetDiagnoService;
 import android.os.SystemClock;
 import android.util.Log;
 
+import com.netease.LDNetDiagnoUtils.Client;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by liuhanlin on 16/1/8.
@@ -58,13 +66,21 @@ public class LDNetDownload {
                     URL url = new URL(downloadFileUrl);
                     URLConnection con = url.openConnection();
                     con.setUseCaches(false);
+                    Map<String, List<String>> respHeaders = con.getHeaderFields();
+                    JSONObject respJson = new JSONObject();
+                    for(Map.Entry<String,List<String>> entry : respHeaders.entrySet()){
+                        if (entry.getKey()==null){
+                            continue;
+                        }
+                        for(String value : entry.getValue()){
+                            respJson.put(entry.getKey(),value);
+
+                        }
+                    }
+
+                    System.out.println("json----------"+respJson);
                     long connectionLatency = System.currentTimeMillis() - startCon;
                     stream = con.getInputStream();
-
-                    //Message msgUpdateConnection = Message.obtain(mHandler, MSG_UPDATE_CONNECTION_TIME);
-                    // msgUpdateConnection.arg1 = (int) connectionLatency;
-                    //mHandler.sendMessage(msgUpdateConnection);
-
                     long start = System.currentTimeMillis();
                     int currentByte = 0;
                     long updateStart = System.currentTimeMillis();
@@ -75,11 +91,14 @@ public class LDNetDownload {
                         bytesIn++;
                         bytesInThreshold++;
                     }
-
+                    InetAddress remoteIP = InetAddress.getByName("liuhanlin-work.qiniudn.com");
                     double downloadTime = (System.currentTimeMillis() - start);
-                    log.append("下载速度：－－－－"+calculate(downloadTime/1000, 7168)+"KB/s"+"下载时间：- - -"+downloadTime/1000+"秒");
+                    log.append("\n" + "开始下载...\n");
+                    Client.client.put("dresp_headers", respJson);
+                    log.append("下载速度：－－－－" + calculate(downloadTime / 1000, 7168) + "KB/s" + "下载时间：- - -" + downloadTime / 1000 + "秒");
                     listener0.OnNetDownloadFinished(log.toString());
-                    ;
+                    Client.client.put("download_info", log.toString());
+                    Client.client.put("remote_ip",remoteIP);
                     //Prevent AritchmeticException
                     if (downloadTime == 0) {
                         downloadTime = 1;
@@ -89,6 +108,8 @@ public class LDNetDownload {
 
                 } catch (IOException e) {
 
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 } finally {
                     try {
                         if (stream != null) {
@@ -113,7 +134,7 @@ public class LDNetDownload {
 
     private double calculate(final double downloadTime, final double bytesIn) {
         //from mil to sec
-        double bytespersecond = (bytesIn / downloadTime);
+        int bytespersecond = (int)(bytesIn / downloadTime);
 
 
         return bytespersecond;

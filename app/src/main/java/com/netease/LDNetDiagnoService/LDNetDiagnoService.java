@@ -7,7 +7,10 @@ import android.text.TextUtils;
 import com.netease.LDNetDiagnoService.LDNetPing.LDNetPingListener;
 import com.netease.LDNetDiagnoService.LDNetSocket.LDNetSocketListener;
 import com.netease.LDNetDiagnoService.LDNetTraceRoute.LDNetTraceRouteListener;
+import com.netease.LDNetDiagnoUtils.Client;
 import com.netease.LDNetDiagnoUtils.LDNetUtil;
+
+import org.json.JSONException;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -24,12 +27,6 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
-/**
- * 网络诊断服务 通过对制定域名进行ping诊断和traceroute诊断收集诊断日志
- *
- * @author panghui
- *
- */
 public class LDNetDiagnoService extends
     LDNetAsyncTaskEx<String, String, String> implements LDNetPingListener,
     LDNetTraceRouteListener, LDNetSocketListener, LDNetUp.LDNetUpListener, LDNetDns.LDNetDnsListener, LDNetDownload.LDNetDownloadListener {
@@ -70,9 +67,14 @@ public class LDNetDiagnoService extends
   private boolean _isUseJNICTrace = true;
   private TelephonyManager _telManager = null; // 用于获取网络基本信息
 
+
+
+
+
   public LDNetDiagnoService() {
     super();
   }
+
 
   /**
    * 初始化网络诊断服务
@@ -131,6 +133,8 @@ public class LDNetDiagnoService extends
     }
   }
 
+
+
   @Override
   protected void onProgressUpdate(String... values) {
     if (this.isCancelled())
@@ -151,21 +155,39 @@ public class LDNetDiagnoService extends
    * 开始诊断网络
    */
   public String startNetDiagnosis() {
-    if (TextUtils.isEmpty(this._dormain))
+
+    if (TextUtils.isEmpty(this._dormain)){
+
       return "";
+
+    }else{
+
+      try {
+
+        Client.client.put("ping_host",_dormain);
+
+      } catch (JSONException e) {
+
+        e.printStackTrace();
+
+      }
+
+    }
+
     this._isRunning = true;
     this._logInfo.setLength(0);
     recordStepInfo("开始诊断...");
     recordCurrentAppVersion();
     recordLocalNetEnvironmentInfo();
 
+
     if (_isNetConnected) {
       // 获取运营商信息
-      //recordStepInfo("\n开始获取运营商信息...");
-      //String operatorInfo = requestOperatorInfo();
-      //if (operatorInfo != null) {
-        //recordStepInfo(operatorInfo);
-      //}
+//      recordStepInfo("\n开始获取运营商信息...");
+//      String operatorInfo = requestOperatorInfo();
+//      if (operatorInfo != null) {
+//        recordStepInfo(operatorInfo);
+//      }
 
       // TCP三次握手时间测试
       recordStepInfo("\n开始TCP连接测试...");
@@ -371,39 +393,57 @@ public class LDNetDiagnoService extends
    */
   private void recordCurrentAppVersion() {
     // 输出应用版本信息和用户ID
-    recordStepInfo("应用名称:\t" + "qiniu网络诊断工具");
     recordStepInfo("应用版本:\t" + this._appVersion);
-    recordStepInfo("用户id:\t" + "liuhanlin@qiniu.com");
-
     // 输出机器信息
     recordStepInfo("机器类型:\t" + android.os.Build.MANUFACTURER + ":"
-        + android.os.Build.BRAND + ":" + android.os.Build.MODEL);
+            + android.os.Build.BRAND + ":" + android.os.Build.MODEL);
+
+    try {
+      Client.client.put("machine_type", android.os.Build.MANUFACTURER + ":"
+              + android.os.Build.BRAND + ":" + android.os.Build.MODEL);
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }
+
     recordStepInfo("系统版本:\t" + android.os.Build.VERSION.RELEASE);
+
+    try {
+      Client.client.put("system_version", android.os.Build.VERSION.RELEASE);
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }
+
     if (_telManager != null && TextUtils.isEmpty(_deviceID)) {
       _deviceID = _telManager.getDeviceId();
     }
     recordStepInfo("机器ID:\t" + _deviceID);
 
-    // 运营商信息
-    if (TextUtils.isEmpty(_carrierName)) {
-      _carrierName = LDNetUtil.getMobileOperator(_context);
+    try {
+      Client.client.put("machine_id",_deviceID);
+    } catch (JSONException e) {
+      e.printStackTrace();
     }
-    recordStepInfo("运营商:\t" + _carrierName);
 
-    if (_telManager != null && TextUtils.isEmpty(_ISOCountryCode)) {
-      _ISOCountryCode = _telManager.getNetworkCountryIso();
-    }
-    recordStepInfo("ISOCountryCode:\t" + _ISOCountryCode);
-
-    if (_telManager != null && TextUtils.isEmpty(_MobileCountryCode)) {
-      String tmp = _telManager.getNetworkOperator();
-      _MobileCountryCode = tmp.substring(0, 3);
-      if (tmp.length() >= 5) {
-        _MobileNetCode = tmp.substring(3, 5);
-      }
-    }
-    recordStepInfo("MobileCountryCode:\t" + _MobileCountryCode);
-    recordStepInfo("MobileNetworkCode:\t" + _MobileNetCode);
+//    // 运营商信息
+//    if (TextUtils.isEmpty(_carrierName)) {
+//      _carrierName = LDNetUtil.getMobileOperator(_context);
+//    }
+//    recordStepInfo("运营商:\t" + _carrierName);
+//
+//    if (_telManager != null && TextUtils.isEmpty(_ISOCountryCode)) {
+//      _ISOCountryCode = _telManager.getNetworkCountryIso();
+//    }
+//    recordStepInfo("ISOCountryCode:\t" + _ISOCountryCode);
+//
+//    if (_telManager != null && TextUtils.isEmpty(_MobileCountryCode)) {
+//      String tmp = _telManager.getNetworkOperator();
+//      _MobileCountryCode = tmp.substring(0, 3);
+//      if (tmp.length() >= 5) {
+//        _MobileNetCode = tmp.substring(3, 5);
+//      }
+//    }
+//    recordStepInfo("MobileCountryCode:\t" + _MobileCountryCode);
+//    recordStepInfo("MobileNetworkCode:\t" + _MobileNetCode);
   }
 
   /**
@@ -424,6 +464,11 @@ public class LDNetDiagnoService extends
     // 获取当前网络类型
     _netType = LDNetUtil.getNetWorkType(_context);
     recordStepInfo("当前联网类型:\t" + _netType);
+    try {
+      Client.client.put("net_style",_netType);
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }
     if (_isNetConnected) {
       if (LDNetUtil.NETWORKTYPE_WIFI.equals(_netType)) { // wifi：获取本地ip和网关，其他类型：只获取ip
         _localIp = LDNetUtil.getLocalIpByWifi(_context);
@@ -432,8 +477,18 @@ public class LDNetDiagnoService extends
         _localIp = LDNetUtil.getLocalIpBy3G();
       }
       recordStepInfo("本地IP:\t" + _localIp);
+      try {
+        Client.client.put("local_ip",_localIp);
+      } catch (JSONException e) {
+        e.printStackTrace();
+      }
     } else {
       recordStepInfo("本地IP:\t" + "127.0.0.1");
+      try {
+        Client.client.put("local_ip","127.0.0.1");
+      } catch (JSONException e) {
+        e.printStackTrace();
+      }
     }
     if (_gateWay != null) {
       recordStepInfo("本地网关:\t" + this._gateWay);
@@ -444,8 +499,18 @@ public class LDNetDiagnoService extends
       _dns1 = LDNetUtil.getLocalDns("dns1");
       _dns2 = LDNetUtil.getLocalDns("dns2");
       recordStepInfo("本地DNS:\t" + this._dns1 + "," + this._dns2);
+      try {
+        Client.client.put("local_dns",this._dns1 + "," + this._dns2);
+      } catch (JSONException e) {
+        e.printStackTrace();
+      }
     } else {
       recordStepInfo("本地DNS:\t" + "0.0.0.0" + "," + "0.0.0.0");
+      try {
+        Client.client.put("local_dns", "0.0.0.0" + "," + "0.0.0.0");
+      } catch (JSONException e) {
+        e.printStackTrace();
+      }
     }
 
     // 获取远端域名的DNS解析地址
@@ -479,6 +544,11 @@ public class LDNetDiagnoService extends
       }
       ipString = ipString.substring(0, ipString.length() - 1);
       recordStepInfo("DNS解析结果:\t" + ipString + timeShow);
+      try {
+        Client.client.put("dns_info",ipString + timeShow);
+      } catch (JSONException e) {
+        e.printStackTrace();
+      }
       flag = true;
     } else {// 解析不到，判断第一次解析耗时，如果大于10s进行第二次解析
       if (Integer.parseInt(useTime) > 10000) {
@@ -498,12 +568,27 @@ public class LDNetDiagnoService extends
           }
           ipString = ipString.substring(0, ipString.length() - 1);
           recordStepInfo("DNS解析结果:\t" + ipString + timeShow);
+          try {
+            Client.client.put("dns_info",ipString + timeShow);
+          } catch (JSONException e) {
+            e.printStackTrace();
+          }
           flag = true;
         } else {
           recordStepInfo("DNS解析结果:\t" + "解析失败" + timeShow);
+          try {
+            Client.client.put("dns_info","解析失败" + timeShow);
+          } catch (JSONException e) {
+            e.printStackTrace();
+          }
         }
       } else {
         recordStepInfo("DNS解析结果:\t" + "解析失败" + timeShow);
+        try {
+          Client.client.put("dns_info","解析失败" + timeShow);
+        } catch (JSONException e) {
+          e.printStackTrace();
+        }
       }
     }
     return flag;

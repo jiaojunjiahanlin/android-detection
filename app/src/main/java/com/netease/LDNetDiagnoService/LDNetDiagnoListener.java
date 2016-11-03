@@ -1,10 +1,6 @@
 package com.netease.LDNetDiagnoService;
 
-/**
- * 监控网络诊断的跟踪信息
- * @author panghui
- *
- */
+
 public interface LDNetDiagnoListener {
 	
 	/**

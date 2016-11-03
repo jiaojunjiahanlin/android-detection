@@ -3,6 +3,7 @@ package com.netease.LDNetDiagnoService;
 import android.os.SystemClock;
 import android.util.Log;
 
+import com.netease.LDNetDiagnoUtils.Client;
 import com.netease.LDNetDiagnoUtils.TempFile;
 import com.qiniu.android.http.ResponseInfo;
 import com.qiniu.android.storage.UpCompletionHandler;
@@ -52,6 +53,7 @@ public class LDNetUp {
     public String up() throws IOException, JSONException {
         int size=2048;
         JSONObject obj;
+//        Configuration configuration=new Configuration.Builder().build();
         UploadManager uploadManager = new UploadManager();
         final File f = TempFile.createFile(size);
 
@@ -65,10 +67,28 @@ public class LDNetUp {
                 new UpCompletionHandler() {
                     @Override
                     public void complete(String key, ResponseInfo info, JSONObject res) {
+                        JSONObject up = new JSONObject();
+                        listener0.OnNetUpFinished("\n" + "开始上传\n");
                         //  res 包含hash、key等信息，具体字段取决于上传策略的设置。
                         Log.i("up", "response0" + key + ",\r\n " + info + ",\r\n " + res);
-                        log.append("\n开始上传测试:-----------------------"+ "\r\n " +"文件名：" + key + ",\r\n "  +info + ",\r\n " + res);
+                        log.append(info + ",\r\n " + res);
+                        try {
+                            up.put("header",info);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        try {
+                            up.put("body",res);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
                         listener0.OnNetUpFinished(log.toString());
+                        try {
+                            Client.client.put("up_info", up);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
 
 
                     }

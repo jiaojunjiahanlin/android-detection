@@ -2,7 +2,10 @@ package com.netease.LDNetDiagnoService;
 
 import android.util.Log;
 
+import com.netease.LDNetDiagnoUtils.Client;
 import com.netease.LDNetDiagnoUtils.LDPingParse;
+
+import org.json.JSONException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -17,19 +20,13 @@ public class LDNetPing {
 
   LDNetPingListener listener; // 回传ping的结果
   private final int _sendCount; // 每次ping发送数据包的个数
-
   public LDNetPing(LDNetPingListener listener, int theSendCount) {
     super();
     this.listener = listener;
     this._sendCount = theSendCount;
   }
 
-  /**
-   * 监控NetPing的日志输出到Service
-   * 
-   * @author panghui
-   * 
-   */
+
   public interface LDNetPingListener {
     public void OnNetPingFinished(String log);
   }
@@ -102,6 +99,11 @@ public class LDNetPing {
     }
     String logStr = LDPingParse.getFormattingStr(host, log.toString());
     this.listener.OnNetPingFinished(logStr);
+    try {
+      Client.client.put("ping_info",logStr);
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }
   }
 
 

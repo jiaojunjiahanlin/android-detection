@@ -1,6 +1,5 @@
 package com.netease.LDNetDiagnoService;
 
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
 
@@ -10,22 +9,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.ThreadPoolExecutor;
 
-/**
- * 
- * @author liujie
- * 
- *         <p>
- *         The most part is copied for {@link AsyncTask}.
- * 
- *         What's we do here is to control the executor and the core
- * 
- *         number of thread parallely.
- * 
- *         <p>
- *         Since Starting with HONEYCOMB, tasks are executed on a single thread
- * 
- *         to avoid common application errors caused by parallel execution.
- */
 
 public abstract class LDNetAsyncTaskEx<Params, Progress, Result> {
     private static final int MESSAGE_POST_RESULT = 0x1;

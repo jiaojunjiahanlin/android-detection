@@ -1,18 +1,9 @@
 package com.qiniu.liuhanlin.android_detection;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
-
-
-import android.app.Activity;
-import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -22,7 +13,7 @@ import android.widget.TextView;
 
 import com.netease.LDNetDiagnoService.LDNetDiagnoListener;
 import com.netease.LDNetDiagnoService.LDNetDiagnoService;
-import com.qiniu.www.android_qiniu_tools.SimpleMailSender;
+import com.netease.LDNetDiagnoUtils.Client;
 
 public class MainActivity extends AppCompatActivity implements OnClickListener,
         LDNetDiagnoListener {
@@ -33,6 +24,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener,
     private String showInfo = "";
     private boolean isRunning = false;
     private LDNetDiagnoService _netDiagnoService;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,12 +47,12 @@ public class MainActivity extends AppCompatActivity implements OnClickListener,
                 showInfo = "";
                 String domainName = edit.getText().toString().trim();
                 _netDiagnoService = new LDNetDiagnoService(getApplicationContext(),
-                        "testDemo", "网络诊断应用", "1.0.0", "huipang@corp.netease.com",
-                        "deviceID(option)", domainName, "carriname", "ISOCountyCode",
+                        "rover", "网络诊断应用", "1.1.0", "hellowrold@qq.com",
+                        "未知", domainName, "explorer", "ISOCountyCode",
                         "MobilCountryCode", "MobileNetCode", this);
                 // 设置是否使用JNIC 完成traceroute
                 _netDiagnoService.setIfUseJNICTrace(false);
-//        _netDiagnoService.setIfUseJNICConn(true);
+//              _netDiagnoService.setIfUseJNICConn(true);
                 _netDiagnoService.execute();
                 progress.setVisibility(View.VISIBLE);
                 text.setText("Traceroute with max 30 hops...");
@@ -108,8 +100,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener,
         btn.setEnabled(true);
         edit.setInputType(InputType.TYPE_CLASS_TEXT);
         isRunning = false;
-        SimpleMailSender sse = new SimpleMailSender();
-        sse.email(log,domainName);
+//        SimpleMailSender sse = new SimpleMailSender();
+//        sse.email(log,domainName);
+        Log.i("client-----------", Client.client.toString());
     }
 
     @Override

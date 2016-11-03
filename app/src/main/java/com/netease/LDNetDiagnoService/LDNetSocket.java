@@ -2,6 +2,10 @@ package com.netease.LDNetDiagnoService;
 
 import android.util.Log;
 
+import com.netease.LDNetDiagnoUtils.Client;
+
+import org.json.JSONException;
+
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
@@ -24,6 +28,8 @@ public class LDNetSocket {
   private final long[] RttTimes = new long[CONN_TIMES];// 用于存储三次测试中每次的RTT值
 
   public boolean isCConn = true;
+
+  public String info = "";
   
   private LDNetSocket() {
   
@@ -50,7 +56,12 @@ public class LDNetSocket {
     	}catch(UnsatisfiedLinkError e){
     		e.printStackTrace();
     		Log.i("LDNetSocket", "call jni failed, call execUseJava");
-    		return execUseJava(host);
+          try {
+            Client.client.put("tcp_info","LDNetSocket---call jni failed, call execUseJava");
+          } catch (JSONException e1) {
+            e1.printStackTrace();
+          }
+          return execUseJava(host);
     	}	
     } else {
       return execUseJava(host);
@@ -95,11 +106,13 @@ public class LDNetSocket {
       socketAddress = new InetSocketAddress(inetAddress, PORT);
       int flag = 0;
       this.listener.OnNetSocketUpdated("Connect to host: " + ip + "..." + "\n");
+      info = info.concat("Connect to host: " + ip + "..." + "\n");
       for (int i = 0; i < CONN_TIMES; i++) {
         execSocket(socketAddress, timeOut, i);
         if (RttTimes[i] == -1) {// 一旦发生timeOut,则尝试加长连接时间
           this.listener.OnNetSocketUpdated((i + 1) + "'s time=" + "TimeOut"
               + ",  ");
+          info = info.concat((i + 1) + "'s time=" + "TimeOut" + ",  ");
           timeOut += 4000;
           if (i > 0 && RttTimes[i - 1] == -1) {// 连续两次连接超时,停止后续测试
             flag = -1;
@@ -108,6 +121,7 @@ public class LDNetSocket {
         } else if (RttTimes[i] == -2) {
           this.listener
               .OnNetSocketUpdated((i + 1) + "'s time=" + "IOException");
+          info = info.concat((i + 1) + "'s time=" + "IOException");
           if (i > 0 && RttTimes[i - 1] == -2) {// 连续两次出现IO异常,停止后续测试
             flag = -2;
             break;
@@ -115,6 +129,7 @@ public class LDNetSocket {
         } else {
           this.listener.OnNetSocketUpdated((i + 1) + "'s time=" + RttTimes[i]
               + "ms,  ");
+          info = info.concat((i + 1) + "'s time=" + RttTimes[i] + "ms,  ");
         }
       }
       long time = 0;
@@ -134,13 +149,19 @@ public class LDNetSocket {
         }
         if (count > 0) {
           time = time / count;
-          log.append("average=" + time + "ms");
+          log.append("average=" + time + "ms"+ "\n");
         }
       }
     } else {
       isConnected = false;
     }
     this.listener.OnNetSocketUpdated(log.toString());
+    info = info.concat(log.toString());
+    try {
+      Client.client.put("tcp_info",info);
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }
     return isConnected;
   }
 

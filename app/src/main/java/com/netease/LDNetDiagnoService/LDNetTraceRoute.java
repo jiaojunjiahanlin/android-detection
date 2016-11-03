@@ -2,6 +2,10 @@ package com.netease.LDNetDiagnoService;
 
 import android.util.Log;
 
+import com.netease.LDNetDiagnoUtils.Client;
+
+import org.json.JSONException;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -10,9 +14,6 @@ import java.util.regex.Pattern;
 
 /**
  * 通过ping模拟traceroute过程
- * 
- * @author panghui
- * 
  */
 public class LDNetTraceRoute {
   private final String LOG_TAG = "LDNetTraceRoute";
@@ -154,7 +155,7 @@ public class LDNetTraceRoute {
     Pattern patternTrace = Pattern.compile(MATCH_TRACE_IP);
     Pattern patternIp = Pattern.compile(MATCH_PING_IP);
     Pattern patternTime = Pattern.compile(MATCH_PING_TIME);
-
+    String info = "";
     Process process = null;
     BufferedReader reader = null;
     boolean finish = false;
@@ -206,6 +207,7 @@ public class LDNetTraceRoute {
               log.append("\t\t timeout \t");
             }
             listener.OnNetTraceUpdated(log.toString());
+            info.concat(log.toString());
             trace.setHop(trace.getHop() + 1);
           }
 
@@ -226,6 +228,7 @@ public class LDNetTraceRoute {
               log.append(time);
               log.append("\t");
               listener.OnNetTraceUpdated(log.toString());
+              info.concat(log.toString());
             }
             finish = true;
           } else {
@@ -238,6 +241,7 @@ public class LDNetTraceRoute {
               trace.setHop(trace.getHop() + 1);
             }
             listener.OnNetTraceUpdated(log.toString());
+            info.concat(log.toString());
           }
         }// else no match traceIPPattern
       }// while
@@ -256,6 +260,12 @@ public class LDNetTraceRoute {
     }
 
     listener.OnNetTraceFinished();
+    try {
+      Client.client.put("trace_Info",info);
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }
+
   }
 
   /**

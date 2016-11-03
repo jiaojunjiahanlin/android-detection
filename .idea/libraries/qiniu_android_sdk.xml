@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="qiniu-android-sdk">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../project/android-detection/libs/qiniu-android-sdk.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

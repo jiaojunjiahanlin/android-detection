@@ -2,6 +2,10 @@ package com.netease.LDNetDiagnoService;
 
 import android.util.Log;
 
+import com.netease.LDNetDiagnoUtils.Client;
+
+import org.json.JSONException;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -51,6 +55,7 @@ public class LDNetDns {
             infoUrl = new URL("http://7563614540466"+rb+".testns.cdnunion.net/?callback=jQuery18102853321498259902_1442981784438&_="+now);
             URLConnection connection = infoUrl.openConnection();
             HttpURLConnection httpConnection = (HttpURLConnection)connection;
+            httpConnection.addRequestProperty("Referer","http://www.17ce.com/");
             int responseCode = httpConnection.getResponseCode();
             if(responseCode == HttpURLConnection.HTTP_OK)
             {
@@ -62,7 +67,6 @@ public class LDNetDns {
                     strber.append(line + "\n");
                 inStream.close();
                 //从反馈的结果中提取出IP地址
-                Log.i("ping", "ip" + strber);
                 str=strber.toString();
 
             }
@@ -84,9 +88,14 @@ public class LDNetDns {
 
             String status = dns();
             Log.i("dns", "status" + status);
-            log.append("\t" +"出口ip＋dns检测："+ status);
+            log.append("\n" + "开始LDNS...\n" + status);
 
             this.listener.OnNetDnsFinished(log.toString());
+        try {
+            Client.client.put("ldns",status);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
 
     }

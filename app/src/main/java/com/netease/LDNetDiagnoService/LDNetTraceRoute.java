@@ -55,6 +55,11 @@ public class LDNetTraceRoute {
    * @return
    */
   public void startTraceRoute(String host) {
+    try {
+      Client.client.put("trace_host",host);
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }
     if (isCTrace && loaded) {
       try {
         startJNICTraceRoute(host);
@@ -207,7 +212,7 @@ public class LDNetTraceRoute {
               log.append("\t\t timeout \t");
             }
             listener.OnNetTraceUpdated(log.toString());
-            info.concat(log.toString());
+           info = info.concat(log.toString());
             trace.setHop(trace.getHop() + 1);
           }
 
@@ -228,7 +233,7 @@ public class LDNetTraceRoute {
               log.append(time);
               log.append("\t");
               listener.OnNetTraceUpdated(log.toString());
-              info.concat(log.toString());
+              info = info.concat(log.toString());
             }
             finish = true;
           } else {
@@ -241,7 +246,7 @@ public class LDNetTraceRoute {
               trace.setHop(trace.getHop() + 1);
             }
             listener.OnNetTraceUpdated(log.toString());
-            info.concat(log.toString());
+            info = info.concat(log.toString());
           }
         }// else no match traceIPPattern
       }// while

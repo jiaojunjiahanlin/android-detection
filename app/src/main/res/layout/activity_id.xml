@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/container"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
     android:orientation="vertical" android:padding="5dp">
     <LinearLayout
@@ -8,18 +8,12 @@
         android:layout_marginTop="5dp"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:orientation="horizontal" >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="域名："
-            android:textSize="14sp" />
-
+        android:orientation="vertical" >
         <EditText
             android:id="@+id/domainName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="www.baidu.com"
+            android:hint="请输入探测任务ID"
             />
     </LinearLayout>
 
@@ -35,7 +29,7 @@
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:text="开始诊断"
-            android:textSize="16sp" />
+            android:textSize="12sp" />
 
         <ProgressBar
             android:id="@+id/progress"

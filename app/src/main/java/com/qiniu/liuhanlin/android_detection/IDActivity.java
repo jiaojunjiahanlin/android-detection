@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -14,10 +13,30 @@ import android.widget.TextView;
 import com.netease.LDNetDiagnoService.LDNetDiagnoListener;
 import com.netease.LDNetDiagnoService.LDNetDiagnoService;
 import com.netease.LDNetDiagnoUtils.Client;
+import com.netease.LDNetDiagnoUtils.Probe;
+import com.netease.LDNetDiagnoUtils.TAG;
 
-public class MainActivity extends Activity implements OnClickListener,
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import cz.msebera.android.httpclient.HttpEntity;
+import cz.msebera.android.httpclient.HttpResponse;
+import cz.msebera.android.httpclient.NameValuePair;
+import cz.msebera.android.httpclient.client.HttpClient;
+import cz.msebera.android.httpclient.client.entity.UrlEncodedFormEntity;
+import cz.msebera.android.httpclient.client.methods.HttpPost;
+import cz.msebera.android.httpclient.impl.client.DefaultHttpClient;
+import cz.msebera.android.httpclient.message.BasicNameValuePair;
+import cz.msebera.android.httpclient.protocol.HTTP;
+import cz.msebera.android.httpclient.util.EntityUtils;
+
+public class IDActivity extends Activity implements View.OnClickListener,
         LDNetDiagnoListener {
     private Button btn;
+    private String probe;
     private ProgressBar progress;
     private TextView text;
     private EditText edit;
@@ -30,7 +49,7 @@ public class MainActivity extends Activity implements OnClickListener,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_id);
         btn = (Button) findViewById(R.id.btn);
         btn.setOnClickListener(this);
         progress = (ProgressBar) findViewById(R.id.progress);
@@ -38,6 +57,7 @@ public class MainActivity extends Activity implements OnClickListener,
         text = (TextView) findViewById(R.id.text);
         edit = (EditText) findViewById(R.id.domainName);
         edit.clearFocus();
+        TAG.tag="id";
     }
 
     @Override
@@ -53,11 +73,26 @@ public class MainActivity extends Activity implements OnClickListener,
                 // 设置是否使用JNIC 完成traceroute
                 _netDiagnoService.setIfUseJNICTrace(false);
 //              _netDiagnoService.setIfUseJNICConn(true);
-                _netDiagnoService.execute();
+//                probe = GetProbe();
+                probe = "{ \"id\" :\"58218661afd9f809fb000002\", \"up_host\" : \"upload.qiniu.com\", \"download_url\" : \"http://7xt44n.com1.z0.glb.clouddn.com//00001.jpeg\", \"ping_host\" : \"www.baidu.com\", \"trace_host\" : \"7xt44n.com1.z0.glb.clouddn.com\", \"created_at\" : \"2016-11-07T08:01:37.609Z\", \"title\" : \"任务1\", \"description\" : \"<p>哈哈</p>\" }";
+                try {
+                    Probe.probe=new JSONObject(probe);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                if( probe != "")
+                {
+                    try {
+                        System.out.printf("probe-----------" +Probe.probe.getString("id") );
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    _netDiagnoService.execute(probe);
+                }
                 progress.setVisibility(View.VISIBLE);
                 text.setText("Traceroute with max 30 hops...");
                 btn.setText("停止诊断");
-                btn.setEnabled(false);
+                btn.setEnabled(true);
                 edit.setInputType(InputType.TYPE_NULL);
 
 
@@ -110,6 +145,28 @@ public class MainActivity extends Activity implements OnClickListener,
         showInfo += log;
         text.setText(showInfo);
     }
+
+    public String GetProbe() {
+        try {
+            HttpPost httpPost = new HttpPost("");
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("model", android.os.Build.MODEL));
+            HttpEntity entity = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+            httpPost.setEntity(entity);
+            HttpClient httpClient = new DefaultHttpClient();
+            HttpResponse httpResp = httpClient.execute(httpPost);
+            int statusCode = httpResp.getStatusLine().getStatusCode();
+            if (statusCode == 200) {
+                return EntityUtils.toString(httpResp.getEntity(), HTTP.UTF_8);
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+
+        }
+        return null;
+    }
+
 
 }
 

@@ -17,6 +17,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    sourceSets { main { res.srcDirs = ['src/main/res', 'src/main/res/drawable'] } }
 }
 
 dependencies {
@@ -31,4 +32,5 @@ dependencies {
     compile files('/Users/liuhanlin/qiniuwork/project/android-detection/libs/happy-dns-0.2.4.jar')
     compile files('/Users/liuhanlin/qiniuwork/project/android-detection/libs/qiniu-android-sdk.jar')
     compile files('/Users/liuhanlin/qiniuwork/project/android-detection/libs/httpclient-4.4.1.1.jar')
+    compile 'com.google.android.gms:play-services-appindexing:8.1.0'
 }

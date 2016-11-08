@@ -9,6 +9,8 @@ import com.netease.LDNetDiagnoService.LDNetSocket.LDNetSocketListener;
 import com.netease.LDNetDiagnoService.LDNetTraceRoute.LDNetTraceRouteListener;
 import com.netease.LDNetDiagnoUtils.Client;
 import com.netease.LDNetDiagnoUtils.LDNetUtil;
+import com.netease.LDNetDiagnoUtils.Probe;
+import com.netease.LDNetDiagnoUtils.TAG;
 
 import org.json.JSONException;
 
@@ -66,6 +68,11 @@ public class LDNetDiagnoService extends
   private boolean _isUseJNICConn = false;
   private boolean _isUseJNICTrace = true;
   private TelephonyManager _telManager = null; // 用于获取网络基本信息
+  private String up_host;
+  private String download_url;
+  private String ping_host;
+  private String trace_host;
+
 
 
 
@@ -155,8 +162,18 @@ public class LDNetDiagnoService extends
    * 开始诊断网络
    */
   public String startNetDiagnosis() {
+    if (TAG.tag=="id"){
+      try {
+        this.up_host= Probe.probe.getString("up_host");
+        this.download_url = Probe.probe.getString("download_url");
+        this.ping_host =  Probe.probe.getString("ping_host");
+        this.trace_host =  Probe.probe.getString("trace_host");
+      } catch (JSONException e) {
+        e.printStackTrace();
+      }
+    }
 
-    if (TextUtils.isEmpty(this._dormain)){
+    if (TextUtils.isEmpty(this._dormain)||TextUtils.isEmpty(ping_host) ){
 
       return "";
 

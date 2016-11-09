@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.netease.LDNetDiagnoService.LDNetDiagnoListener;
 import com.netease.LDNetDiagnoService.LDNetDiagnoService;
 import com.netease.LDNetDiagnoUtils.Client;
+import com.netease.LDNetDiagnoUtils.TAG;
 
 public class MainActivity extends Activity implements OnClickListener,
         LDNetDiagnoListener {
@@ -42,6 +43,7 @@ public class MainActivity extends Activity implements OnClickListener,
 
     @Override
     public void onClick(View v) {
+        TAG.tag="";
         if (v == btn) {
             if (!isRunning) {
                 showInfo = "";

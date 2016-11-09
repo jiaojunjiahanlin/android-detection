@@ -48,7 +48,7 @@ public class LDNetDownload {
         public void OnNetDownloadFinished(String log);
     }
 
-    public void download() {
+    public void download(final String download_url) {
         final LDNetDownloadListener listener0 = this.listener;
 
         new Thread(new Runnable() {
@@ -62,6 +62,10 @@ public class LDNetDownload {
                     int bytesIn = 0;
                     final StringBuilder log = new StringBuilder();
                     String downloadFileUrl = "http://liuhanlin-work.qiniudn.com/360%E5%8E%8B%E7%BC%A9_3.2.0.2060.exe";
+                    if (download_url!=""){
+                         downloadFileUrl =download_url;
+                    }
+
                     long startCon = System.currentTimeMillis();
                     URL url = new URL(downloadFileUrl);
                     URLConnection con = url.openConnection();
@@ -124,10 +128,10 @@ public class LDNetDownload {
         }).start();
     }
 
-    public void exec() {
+    public void exec(String download_url) {
         StringBuilder log = new StringBuilder();
         Log.i("down", "down" + log.toString());
-        download();
+        download(download_url);
         SystemClock.sleep(15000);
 
     }

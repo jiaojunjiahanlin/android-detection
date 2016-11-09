@@ -13,6 +13,7 @@ import com.netease.LDNetDiagnoUtils.Probe;
 import com.netease.LDNetDiagnoUtils.TAG;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -121,11 +122,24 @@ public class LDNetDiagnoService extends
 
   @Override
   protected String doInBackground(String... params) {
+    // 这里写获取远程服务
     if (this.isCancelled())
       return null;
     // TODO Auto-generated method stub
+    if (TAG.tag=="id"){
+      String  probe = getProbe("http://a3508912.ngrok.io/api/probe/macking","id=58218661afd9f809fb000002");
+
+      if( probe != ""&&probe != null) {
+        try {
+          Probe.probe = new JSONObject(probe);
+        } catch (JSONException e) {
+          e.printStackTrace();
+        }
+      }
+    }
     return this.startNetDiagnosis();
   }
+
 
   @Override
   protected void onPostExecute(String result) {
@@ -167,13 +181,15 @@ public class LDNetDiagnoService extends
         this.up_host= Probe.probe.getString("up_host");
         this.download_url = Probe.probe.getString("download_url");
         this.ping_host =  Probe.probe.getString("ping_host");
+        this._dormain=ping_host;
         this.trace_host =  Probe.probe.getString("trace_host");
+        System.out.printf("probe-----------" +Probe.probe.getString("id") );
       } catch (JSONException e) {
         e.printStackTrace();
       }
     }
 
-    if (TextUtils.isEmpty(this._dormain)||TextUtils.isEmpty(ping_host) ){
+    if (TextUtils.isEmpty(this._dormain)&&TextUtils.isEmpty(ping_host) ){
 
       return "";
 
@@ -213,7 +229,13 @@ public class LDNetDiagnoService extends
       _netSocker._remoteIpList = _remoteIpList;
       _netSocker.initListener(this);
       _netSocker.isCConn = this._isUseJNICConn;// 设置是否启用C进行connected
-      _isSocketConnected = _netSocker.exec(_dormain);
+      if (TAG.tag == "id"){
+        _isSocketConnected = _netSocker.exec(ping_host);
+
+      }else {
+        _isSocketConnected = _netSocker.exec(_dormain);
+      }
+
 
 
 
@@ -225,7 +247,13 @@ public class LDNetDiagnoService extends
       // 联网&&DNS解析成功&&connect测试成功
         _netPinging = new LDNetPing(this, 4);
 
-        _netPinging.exec(_dormain, false);
+        if (TAG.tag == "id"){
+          _netPinging.exec(ping_host, false);
+        }else {
+          _netPinging.exec(_dormain, false);
+        }
+
+
        // new Thread(new Runnable() {
        //   @Override
         //  public void run() {
@@ -252,7 +280,13 @@ public class LDNetDiagnoService extends
 
 
       _netDownloader =new LDNetDownload(this ,1);
-      _netDownloader.exec();
+      if (TAG.tag == "id"){
+        _netDownloader.exec(download_url);
+
+      }else {
+        _netDownloader.exec("");
+      }
+
 
 
       // 诊断ping信息, 同步过程
@@ -291,7 +325,14 @@ public class LDNetDiagnoService extends
       _traceRouter = LDNetTraceRoute.getInstance();
       _traceRouter.initListenter(this);
       _traceRouter.isCTrace = this._isUseJNICTrace;
-      _traceRouter.startTraceRoute(_dormain);
+
+      if (TAG.tag == "id"){
+        _traceRouter.startTraceRoute(trace_host);
+
+      }else {
+        _traceRouter.startTraceRoute(_dormain);
+      }
+
       return _logInfo.toString();
     } else {
       recordStepInfo("\n\n当前主机未联网,请检查网络！");
@@ -646,6 +687,40 @@ public class LDNetDiagnoService extends
     }
     return res;
   }
+
+  private String getProbe(String url,String param) {
+    String res = null;
+    HttpURLConnection conn = null;
+    URL Operator_url;
+    try {
+      Operator_url = new URL(url+"?"+param);
+      conn = (HttpURLConnection) Operator_url.openConnection();
+      conn.setRequestMethod("GET");
+      conn.setConnectTimeout(1000 * 10);
+      conn.connect();
+      int responseCode = conn.getResponseCode();
+      if (responseCode == 200) {
+        res = LDNetUtil.getStringFromStream(conn.getInputStream());
+        if (conn != null) {
+          conn.disconnect();
+        }
+      }
+      return res;
+    } catch (MalformedURLException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } finally {
+      if (conn != null) {
+        conn.disconnect();
+      }
+    }
+    return res;
+  }
+
+
 
 
 

@@ -183,7 +183,8 @@ public class LDNetDiagnoService extends
         this.ping_host =  Probe.probe.getString("ping_host");
         this._dormain=ping_host;
         this.trace_host =  Probe.probe.getString("trace_host");
-        System.out.printf("probe-----------" +Probe.probe.getString("id") );
+//        Client.client.put("probe_id",Probe.probe.getString("id"));
+//        System.out.printf("probe-----------" +Probe.probe.getString("id") );
       } catch (JSONException e) {
         e.printStackTrace();
       }

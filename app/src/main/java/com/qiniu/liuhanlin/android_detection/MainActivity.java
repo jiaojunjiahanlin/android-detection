@@ -46,7 +46,6 @@ public class MainActivity extends Activity implements OnClickListener,
         TAG.tag="";
         if (v == btn) {
             if (!isRunning) {
-                Client.client=null;
                 showInfo = "";
                 String domainName = edit.getText().toString().trim();
                 _netDiagnoService = new LDNetDiagnoService(getApplicationContext(),
@@ -106,7 +105,10 @@ public class MainActivity extends Activity implements OnClickListener,
 //        SimpleMailSender sse = new SimpleMailSender();
 //        sse.email(log,domainName);
         if (Client.client!=null){
-            Log.i("client-----------", Client.client.toString());
+
+            if (  !Client.client.has("probe_id")){
+                Log.i("client-----------", Client.client.toString());
+            }
         }
     }
 

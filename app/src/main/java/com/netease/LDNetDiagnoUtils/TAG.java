@@ -5,5 +5,6 @@ package com.netease.LDNetDiagnoUtils;
  */
 public class TAG {
     public static String tag ;
+    public static String id;
 
 }

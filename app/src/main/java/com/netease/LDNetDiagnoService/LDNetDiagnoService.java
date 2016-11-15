@@ -127,7 +127,7 @@ public class LDNetDiagnoService extends
       return null;
     // TODO Auto-generated method stub
     if (TAG.tag=="id"){
-      String  probe = getProbe("http://a3508912.ngrok.io/api/probe/macking","id=58218661afd9f809fb000002");
+      String  probe = getProbe("http://3113abe4.ngrok.io/api/probe/macking/","582abfa5afd9f8fcd6000002");
 
       if( probe != ""&&probe != null) {
         try {
@@ -183,7 +183,9 @@ public class LDNetDiagnoService extends
         this.ping_host =  Probe.probe.getString("ping_host");
         this._dormain=ping_host;
         this.trace_host =  Probe.probe.getString("trace_host");
-//        Client.client.put("probe_id",Probe.probe.getString("id"));
+        Client.client.put("probe_id",Probe.probe.getString("id"));
+        Client.client.put("email",Probe.probe.getString("email"));
+        Client.client.put("title",Probe.probe.getString("title"));
 //        System.out.printf("probe-----------" +Probe.probe.getString("id") );
       } catch (JSONException e) {
         e.printStackTrace();
@@ -694,10 +696,12 @@ public class LDNetDiagnoService extends
     HttpURLConnection conn = null;
     URL Operator_url;
     try {
-      Operator_url = new URL(url+"?"+param);
+      Operator_url = new URL(url+param);
       conn = (HttpURLConnection) Operator_url.openConnection();
       conn.setRequestMethod("GET");
       conn.setConnectTimeout(1000 * 10);
+      conn.setRequestProperty("Accept-Charset", "UTF-8");
+      conn.setRequestProperty("contentType", "application/x-www-form-urlencoded; charset=utf-8");
       conn.connect();
       int responseCode = conn.getResponseCode();
       if (responseCode == 200) {

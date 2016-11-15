@@ -17,7 +17,7 @@
             android:layout_height="fill_parent"
             android:layout_weight="1.0"
             android:gravity="center"
-            android:text="ID探测"
+            android:text="I D探测"
             android:textColor="#000000"
             android:textSize="18.0dip" />
 
@@ -37,7 +37,7 @@
             android:layout_height="fill_parent"
             android:layout_weight="1.0"
             android:gravity="center"
-            android:text="定义探测"
+            android:text="默认探测"
             android:textColor="#000000"
             android:textSize="18.0dip" />
     </LinearLayout>

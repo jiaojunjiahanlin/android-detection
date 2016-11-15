@@ -85,7 +85,7 @@ public class LDNetUp {
 
                         listener0.OnNetUpFinished(log.toString());
                         try {
-                            Client.client.put("up_info", up);
+                            Client.client.put("up_info", up.toString());
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

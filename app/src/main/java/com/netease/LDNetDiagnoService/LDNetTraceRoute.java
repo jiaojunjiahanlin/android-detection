@@ -266,7 +266,7 @@ public class LDNetTraceRoute {
 
     listener.OnNetTraceFinished();
     try {
-      Client.client.put("trace_Info",info);
+      Client.client.put("trace_info",info);
     } catch (JSONException e) {
       e.printStackTrace();
     }

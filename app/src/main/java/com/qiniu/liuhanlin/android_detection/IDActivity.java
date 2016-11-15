@@ -16,6 +16,13 @@ import com.netease.LDNetDiagnoService.LDNetDiagnoService;
 import com.netease.LDNetDiagnoUtils.Client;
 import com.netease.LDNetDiagnoUtils.TAG;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 public class IDActivity extends Activity implements View.OnClickListener,
         LDNetDiagnoListener {
     private Button btn;
@@ -106,12 +113,71 @@ public class IDActivity extends Activity implements View.OnClickListener,
 //        SimpleMailSender sse = new SimpleMailSender();
 //        sse.email(log,domainName);
         Log.i("client-----------", Client.client.toString());
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    PostJson();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
     @Override
     public void OnNetDiagnoUpdated(String log) {
         showInfo += log;
         text.setText(showInfo);
+    }
+
+
+    public String PostJson() throws IOException {
+        String request = "http://3113abe4.ngrok.io/api/report/create";
+        String msg = "";
+        try{
+            HttpURLConnection conn = (HttpURLConnection) new URL(request).openConnection();
+            //设置请求方式,请求超时信息
+            conn.setRequestMethod("POST");
+            conn.setReadTimeout(50000);
+            conn.setConnectTimeout(50000);
+            conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+            //设置运行输入,输出:
+            conn.setDoOutput(true);
+            conn.setDoInput(true);
+            //Post方式不能缓存,需手动设置为false
+            conn.setUseCaches(false);
+            //我们请求的数据:
+            String data = Client.client.toString();
+            //这里可以写一些请求头的东东...
+            //获取输出流
+            OutputStream out = conn.getOutputStream();
+            out.write(data.getBytes());
+            out.flush();
+            if (conn.getResponseCode() == 200) {
+                // 获取响应的输入流对象
+                InputStream is = conn.getInputStream();
+                // 创建字节输出流对象
+                ByteArrayOutputStream message = new ByteArrayOutputStream();
+                // 定义读取的长度
+                int len = 0;
+                // 定义缓冲区
+                byte buffer[] = new byte[1024];
+                // 按照缓冲区的大小，循环读取
+                while ((len = is.read(buffer)) != -1) {
+                    // 根据读取的长度写入到os对象中
+                    message.write(buffer, 0, len);
+                }
+                // 释放资源
+                is.close();
+                message.close();
+                // 返回字符串
+                msg = new String(message.toByteArray());
+                return msg;
+            }
+        }catch(Exception e){e.printStackTrace();}
+        return msg;
     }
 
 

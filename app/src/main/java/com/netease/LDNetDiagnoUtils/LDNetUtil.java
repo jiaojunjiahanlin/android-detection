@@ -271,7 +271,7 @@ public class LDNetUtil {
     String res = "";
     try {
       while ((len = is.read(bytes)) != -1) {
-        res = res + new String(bytes, 0, len, "gbk");
+        res = res + new String(bytes, 0, len, "UTF-8");
       }
     } catch (IOException e) {
       e.printStackTrace();

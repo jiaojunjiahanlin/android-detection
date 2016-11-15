@@ -104,11 +104,8 @@ public class MainActivity extends Activity implements OnClickListener,
         isRunning = false;
 //        SimpleMailSender sse = new SimpleMailSender();
 //        sse.email(log,domainName);
-        if (Client.client!=null){
-
-            if (  !Client.client.has("probe_id")){
-                Log.i("client-----------", Client.client.toString());
-            }
+        if (Client.client.isNull("probe_id")){
+            Log.i("client-----------", Client.client.toString());
         }
     }
 
@@ -117,6 +114,8 @@ public class MainActivity extends Activity implements OnClickListener,
         showInfo += log;
         text.setText(showInfo);
     }
+
+
 
 }
 

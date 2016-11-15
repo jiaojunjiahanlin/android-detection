@@ -98,7 +98,7 @@ public class LDNetDownload {
                     InetAddress remoteIP = InetAddress.getByName("liuhanlin-work.qiniudn.com");
                     double downloadTime = (System.currentTimeMillis() - start);
                     log.append("\n" + "开始下载...\n");
-                    Client.client.put("dresp_headers", respJson);
+                    Client.client.put("dresp_headers", respJson.toString());
                     log.append("下载速度：－－－－" + calculate(downloadTime / 1000, 7168) + "KB/s" + "下载时间：- - -" + downloadTime / 1000 + "秒");
                     listener0.OnNetDownloadFinished(log.toString());
                     Client.client.put("download_info", log.toString());

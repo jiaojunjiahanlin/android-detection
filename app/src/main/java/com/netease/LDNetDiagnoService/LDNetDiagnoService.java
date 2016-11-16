@@ -127,7 +127,7 @@ public class LDNetDiagnoService extends
       return null;
     // TODO Auto-generated method stub
     if (TAG.tag=="id"){
-      String  probe = getProbe("http://3113abe4.ngrok.io/api/probe/macking/","582abfa5afd9f8fcd6000002");
+      String  probe = getProbe("http://3113abe4.ngrok.io/api/probe/macking/","3");
 
       if( probe != ""&&probe != null) {
         try {

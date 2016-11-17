@@ -1,2 +1,167 @@
 <?xml version="1.0" encoding="utf-8"?>
-<items version="2" />
+<items version="2" >
+
+    <item
+        is-multidex="true"
+        jar="/Users/liuhanlin/qiniuwork/project/android-detection/libs/activation.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="d1257cbff6faa44c1f325ae0d9413522d4644383">
+        <dex dex="/Users/liuhanlin/qiniuwork/rover/android-detection/app/build/intermediates/transforms/dex/debug/folders/1000/2/activation_6d038e94a2d2cdbb5b14384c7966ca35bdce8549/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/liuhanlin/qiniuwork/rover/android-detection/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/8.4.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="8e673cdfadd8f2d98fdb2fda2285c30f6e449782">
+        <dex dex="/Users/liuhanlin/qiniuwork/rover/android-detection/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-basement-8.4.0_bf150d704764285dd2098d256ec109787c2a14b2/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/liuhanlin/qiniuwork/rover/android-detection/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="5c5699834e9722f1c288fea2de82725d078ba127">
+        <dex dex="/Users/liuhanlin/qiniuwork/rover/android-detection/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-appcompat-v7-23.1.1_ad6b6a0fb189cb39f7e647d4500d4b61cfe762ee/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/liuhanlin/qiniuwork/rover/android-detection/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-appindexing/8.4.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="65d086ee9daaf87b5af62ad24471edafa433354c">
+        <dex dex="/Users/liuhanlin/qiniuwork/rover/android-detection/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-appindexing-8.4.0_af60a031278856fc5648be9a6aabbfe4a6c62fdc/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/liuhanlin/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/23.1.1/support-annotations-23.1.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="8d680ba5a623724d1fb0e81c36a790f023a6cede">
+        <dex dex="/Users/liuhanlin/qiniuwork/rover/android-detection/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-23.1.1_2f31663da1984095100e260b1e7e7b8a704b6d9f/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/liuhanlin/qiniuwork/rover/android-detection/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="6cbc7773921fcfedbe55657578f0cbfe614778dc">
+        <dex dex="/Users/liuhanlin/qiniuwork/rover/android-detection/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-v4-23.1.1_2ee55da8cce678a231ac46f3c2a3e521a2729883/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/liuhanlin/qiniuwork/project/android-detection/libs/additionnal.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="bd9e8dc422bb8c8405359947fe9f4282b49f57f4">
+        <dex dex="/Users/liuhanlin/qiniuwork/rover/android-detection/app/build/intermediates/transforms/dex/debug/folders/1000/2/additionnal_4545d353233de080f1b4c48a9a58ebce406d6cdc/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/liuhanlin/qiniuwork/project/android-detection/libs/httpclient-4.4.1.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="c8d96f6fd2bcc179c312da33ee670a71188cc60d">
+        <dex dex="/Users/liuhanlin/qiniuwork/rover/android-detection/app/build/intermediates/transforms/dex/debug/folders/1000/2/httpclient-4.4.1.1_0c231b140f55f08c9de01127bce70c7e585ff561/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/liuhanlin/qiniuwork/rover/android-detection/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="13a2ad3f2ca04ebfe136673ab31100bba63b3ecb">
+        <dex dex="/Users/liuhanlin/qiniuwork/rover/android-detection/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_61a4984bb5d44fbf9a305045333ffa119e648237/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/liuhanlin/qiniuwork/rover/android-detection/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/23.1.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="09c5e804bc67fc0580360043dff067df574a60d4">
+        <dex dex="/Users/liuhanlin/qiniuwork/rover/android-detection/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-recyclerview-v7-23.1.1_98d53a77c11a8c628927a7555767e744b8f9a4d9/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/liuhanlin/qiniuwork/rover/android-detection/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/jars/libs/internal_impl-23.1.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="a4de9c81ae239414e1ed0f86441b02abaf29bca9">
+        <dex dex="/Users/liuhanlin/qiniuwork/rover/android-detection/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-23.1.1_631426d8631eacd2d95c5ce9af33b6fcd1b6d763/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/liuhanlin/qiniuwork/rover/android-detection/app/build/intermediates/exploded-aar/com.android.support/design/23.1.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="379471b2bd17d9737c050345c08e8c7d16589784">
+        <dex dex="/Users/liuhanlin/qiniuwork/rover/android-detection/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-design-23.1.1_f6b0be5682993f793c283489a2a57fea0d0066f0/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/liuhanlin/qiniuwork/rover/android-detection/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="fef2b3e4b6b1b0e5fe7b69fa137a5fa55a3182ab">
+        <dex dex="/Users/liuhanlin/qiniuwork/rover/android-detection/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-base-8.4.0_463636c9991e0948c6ba214ac780fcdf1e5777d4/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/liuhanlin/qiniuwork/project/android-detection/libs/mail.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="428e267abff0d10802ccde86b915da2c20471160">
+        <dex dex="/Users/liuhanlin/qiniuwork/rover/android-detection/app/build/intermediates/transforms/dex/debug/folders/1000/2/mail_b0f2821f4bc3b1fa65046888578b35a6601082aa/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/liuhanlin/qiniuwork/project/android-detection/libs/happy-dns-0.2.4.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="b3848e8ccf9442d6dd03ce070bbe541bdcd20491">
+        <dex dex="/Users/liuhanlin/qiniuwork/rover/android-detection/app/build/intermediates/transforms/dex/debug/folders/1000/2/happy-dns-0.2.4_a99058a9e98cd405703b865fce987e9655297a1e/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/liuhanlin/qiniuwork/project/android-detection/libs/qiniu-android-sdk.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="0bb345df4761e83e09f82b733c37bf2e4b66de93">
+        <dex dex="/Users/liuhanlin/qiniuwork/rover/android-detection/app/build/intermediates/transforms/dex/debug/folders/1000/2/qiniu-android-sdk_e1da8fbd334d6f731ac07959b165da1d8d5da0c1/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/liuhanlin/qiniuwork/rover/android-detection/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="5436501da8fc24b45f97c4dbea13ef5e8d1bd428">
+        <dex dex="/Users/liuhanlin/qiniuwork/rover/android-detection/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_08bbb770357e7a01743b70cc87bd1296572da4b0/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/liuhanlin/qiniuwork/project/android-detection/libs/android-async-http-1.4.9.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="386a4339ffe52d5d63e80f9bed8d2b1d1a418249">
+        <dex dex="/Users/liuhanlin/qiniuwork/rover/android-detection/app/build/intermediates/transforms/dex/debug/folders/1000/2/android-async-http-1.4.9_095e8734d9b2ecbd07f5e8916a315682f82e0f4d/classes.dex" />
+    </item>
+
+</items>

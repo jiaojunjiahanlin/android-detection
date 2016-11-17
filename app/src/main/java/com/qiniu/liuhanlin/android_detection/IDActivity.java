@@ -11,10 +11,10 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.netease.LDNetDiagnoService.LDNetDiagnoListener;
-import com.netease.LDNetDiagnoService.LDNetDiagnoService;
-import com.netease.LDNetDiagnoUtils.Client;
-import com.netease.LDNetDiagnoUtils.TAG;
+import com.network.QNetDiagnoService.LDNetDiagnoListener;
+import com.network.QNetDiagnoService.LDNetDiagnoService;
+import com.network.QNetDiagnoUtils.Client;
+import com.network.QNetDiagnoUtils.TAG;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

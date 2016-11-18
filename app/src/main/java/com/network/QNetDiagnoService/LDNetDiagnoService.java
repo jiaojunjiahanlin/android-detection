@@ -9,8 +9,6 @@ import com.network.QNetDiagnoService.LDNetSocket.LDNetSocketListener;
 import com.network.QNetDiagnoService.LDNetTraceRoute.LDNetTraceRouteListener;
 import com.network.QNetDiagnoUtils.Client;
 import com.network.QNetDiagnoUtils.LDNetUtil;
-import com.network.QNetDiagnoUtils.Probe;
-import com.network.QNetDiagnoUtils.TAG;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -73,6 +71,7 @@ public class LDNetDiagnoService extends
   private String download_url;
   private String ping_host;
   private String trace_host;
+  private JSONObject probe;
 
 
 
@@ -126,18 +125,18 @@ public class LDNetDiagnoService extends
     if (this.isCancelled())
       return null;
     // TODO Auto-generated method stub
-    if (TAG.tag=="id"){
-      String  probe = getProbe("http://3113abe4.ngrok.io/api/probe/macking/","3");
+      String  p = getProbe("http://927a6d5b.ngrok.io/api/probe/macking/",params[0]);
 
-      if( probe != ""&&probe != null) {
+      if( p != ""&&p != null) {
         try {
-          Probe.probe = new JSONObject(probe);
+          probe = new JSONObject(p);
+          return this.startNetDiagnosis();
         } catch (JSONException e) {
           e.printStackTrace();
+          return "get json failed";
         }
       }
-    }
-    return this.startNetDiagnosis();
+    return "get json failed";
   }
 
 
@@ -176,21 +175,20 @@ public class LDNetDiagnoService extends
    * 开始诊断网络
    */
   public String startNetDiagnosis() {
-    if (TAG.tag=="id"){
       try {
-        this.up_host= Probe.probe.getString("up_host");
-        this.download_url = Probe.probe.getString("download_url");
-        this.ping_host =  Probe.probe.getString("ping_host");
+        this.up_host= probe.getString("up_host");
+        this.download_url = probe.getString("download_url");
+        this.ping_host =  probe.getString("ping_host");
         this._dormain=ping_host;
-        this.trace_host =  Probe.probe.getString("trace_host");
-        Client.client.put("probe_id",Probe.probe.getString("id"));
-        Client.client.put("email",Probe.probe.getString("email"));
-        Client.client.put("title",Probe.probe.getString("title"));
+        this.trace_host =  probe.getString("trace_host");
+        Client.client.put("probe_id",probe.getString("id"));
+        Client.client.put("email",probe.getString("email"));
+        Client.client.put("title",probe.getString("title"));
 //        System.out.printf("probe-----------" +Probe.probe.getString("id") );
       } catch (JSONException e) {
         e.printStackTrace();
       }
-    }
+
 
     if (TextUtils.isEmpty(this._dormain)&&TextUtils.isEmpty(ping_host) ){
 
@@ -232,12 +230,8 @@ public class LDNetDiagnoService extends
       _netSocker._remoteIpList = _remoteIpList;
       _netSocker.initListener(this);
       _netSocker.isCConn = this._isUseJNICConn;// 设置是否启用C进行connected
-      if (TAG.tag == "id"){
-        _isSocketConnected = _netSocker.exec(ping_host);
+      _isSocketConnected = _netSocker.exec(ping_host);
 
-      }else {
-        _isSocketConnected = _netSocker.exec(_dormain);
-      }
 
 
 
@@ -249,12 +243,7 @@ public class LDNetDiagnoService extends
       {
       // 联网&&DNS解析成功&&connect测试成功
         _netPinging = new LDNetPing(this, 4);
-
-        if (TAG.tag == "id"){
-          _netPinging.exec(ping_host, false);
-        }else {
-          _netPinging.exec(_dormain, false);
-        }
+        _netPinging.exec(ping_host, false);
 
 
        // new Thread(new Runnable() {
@@ -283,12 +272,7 @@ public class LDNetDiagnoService extends
 
 
       _netDownloader =new LDNetDownload(this ,1);
-      if (TAG.tag == "id"){
-        _netDownloader.exec(download_url);
-
-      }else {
-        _netDownloader.exec("");
-      }
+      _netDownloader.exec(download_url);
 
 
 
@@ -328,13 +312,7 @@ public class LDNetDiagnoService extends
       _traceRouter = LDNetTraceRoute.getInstance();
       _traceRouter.initListenter(this);
       _traceRouter.isCTrace = this._isUseJNICTrace;
-
-      if (TAG.tag == "id"){
-        _traceRouter.startTraceRoute(trace_host);
-
-      }else {
-        _traceRouter.startTraceRoute(_dormain);
-      }
+      _traceRouter.startTraceRoute(trace_host);
 
       return _logInfo.toString();
     } else {

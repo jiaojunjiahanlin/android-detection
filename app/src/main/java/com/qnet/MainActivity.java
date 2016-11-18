@@ -23,7 +23,7 @@ public class MainActivity extends Activity implements OnClickListener {
     /**
      * 用于展示消息的Fragment
      */
-    private MessageFragment messageFragment;
+    private IDFragment idFragment;
 
     /**
      * 用于展示联系人的Fragment
@@ -181,13 +181,13 @@ public class MainActivity extends Activity implements OnClickListener {
                 // 当点击了消息tab时，改变控件的图片和文字颜色
                 messageImage.setImageResource(R.drawable.message_selected);
                 messageText.setTextColor(Color.WHITE);
-                if (messageFragment == null) {
+                if (idFragment == null) {
                     // 如果MessageFragment为空，则创建一个并添加到界面上
-                    messageFragment = new MessageFragment();
-                    transaction.add(R.id.content, messageFragment);
+                    idFragment = new IDFragment();
+                    transaction.add(R.id.content, idFragment);
                 } else {
                     // 如果MessageFragment不为空，则直接将它显示出来
-                    transaction.show(messageFragment);
+                    transaction.show(idFragment);
                 }
                 break;
             case 1:
@@ -255,8 +255,8 @@ public class MainActivity extends Activity implements OnClickListener {
      *            用于对Fragment执行操作的事务
      */
     private void hideFragments(FragmentTransaction transaction) {
-        if (messageFragment != null) {
-            transaction.hide(messageFragment);
+        if (idFragment != null) {
+            transaction.hide(idFragment);
         }
         if (contactsFragment != null) {
             transaction.hide(contactsFragment);

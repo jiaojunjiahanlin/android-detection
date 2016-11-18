@@ -22,15 +22,15 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:23.1.1'
-    compile 'com.android.support:design:23.1.1'
-    compile 'com.google.android.gms:play-services-appindexing:8.4.0'
-    compile 'com.android.support:support-v4:23.1.1'
-    testCompile 'junit:junit:4.12'
     compile files('/Users/liuhanlin/qiniuwork/rover/android-detection/libs/activation.jar')
     compile files('/Users/liuhanlin/qiniuwork/rover/android-detection/libs/additionnal.jar')
     compile files('/Users/liuhanlin/qiniuwork/rover/android-detection/libs/android-async-http-1.4.9.jar')
     compile files('/Users/liuhanlin/qiniuwork/rover/android-detection/libs/happy-dns-0.2.4.jar')
     compile files('/Users/liuhanlin/qiniuwork/rover/android-detection/libs/httpclient-4.4.1.1.jar')
     compile files('/Users/liuhanlin/qiniuwork/rover/android-detection/libs/qiniu-android-sdk.jar')
+    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.android.support:design:23.1.1'
+    compile 'com.google.android.gms:play-services-appindexing:8.4.0'
+    compile 'com.android.support:support-v4:23.1.1'
+    testCompile 'junit:junit:4.12'
 }

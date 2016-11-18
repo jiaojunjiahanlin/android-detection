@@ -1,14 +1,11 @@
-package com.qiniu.liuhanlin.android_detection;
+package com.qnet;
 
-import android.app.Fragment;
-import android.net.Uri;
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.InputType;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -18,6 +15,7 @@ import com.network.QNetDiagnoService.LDNetDiagnoListener;
 import com.network.QNetDiagnoService.LDNetDiagnoService;
 import com.network.QNetDiagnoUtils.Client;
 import com.network.QNetDiagnoUtils.TAG;
+import com.qiniu.liuhanlin.android_detection.R;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -26,26 +24,8 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link MessageFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link MessageFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class MessageFragment extends Fragment implements View.OnClickListener,
+public class IDActivity extends Activity implements View.OnClickListener,
         LDNetDiagnoListener {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
     private Button btn;
     private String probe;
     private ProgressBar progress;
@@ -55,55 +35,30 @@ public class MessageFragment extends Fragment implements View.OnClickListener,
     private boolean isRunning = false;
     private LDNetDiagnoService _netDiagnoService;
     private Handler handler = new Handler();
-    private View rootView;
 
-    private OnFragmentInteractionListener mListener;
-
-    public MessageFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment MessageFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static MessageFragment newInstance(String param1, String param2) {
-        MessageFragment fragment = new MessageFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-        btn = (Button) rootView.findViewById(R.id.btn);
+        setContentView(R.layout.activity_id);
+        btn = (Button) findViewById(R.id.btn);
         btn.setOnClickListener(this);
-        progress = (ProgressBar) rootView.findViewById(R.id.progress);
+        progress = (ProgressBar) findViewById(R.id.progress);
         progress.setVisibility(View.INVISIBLE);
-        text = (TextView) rootView.findViewById(R.id.text);
-        edit = (EditText) rootView.findViewById(R.id.domainName);
+        text = (TextView) findViewById(R.id.text);
+        edit = (EditText) findViewById(R.id.domainName);
         edit.clearFocus();
-
     }
 
     @Override
     public void onClick(View v) {
-        getActivity().getApplication();
         TAG.tag="id";
         if (v == btn) {
             if (!isRunning) {
                 showInfo = "";
                 String domainName = edit.getText().toString().trim();
-                _netDiagnoService = new LDNetDiagnoService(getActivity().getApplication().getBaseContext(),
+                _netDiagnoService = new LDNetDiagnoService(getApplicationContext(),
                         "rover", "网络诊断应用", "1.1.0", "hellowrold@qq.com",
                         "未知", domainName, "explorer", "ISOCountyCode",
                         "MobilCountryCode", "MobileNetCode", this);
@@ -129,61 +84,22 @@ public class MessageFragment extends Fragment implements View.OnClickListener,
             isRunning = !isRunning;
         }
     }
+
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+    protected void onDestroy() {
+        super.onDestroy();
+        if (_netDiagnoService != null) {
+            _netDiagnoService.stopNetDialogsis();
         }
+
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return rootView=inflater.inflate(R.layout.fragment_message, container, false);
+    public void onBackPressed() {
+
+        super.onBackPressed();
+
     }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
-//    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
-
 
     @Override
     public void OnNetDiagnoFinished(String log) {
@@ -217,13 +133,6 @@ public class MessageFragment extends Fragment implements View.OnClickListener,
         text.setText(showInfo);
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        if (_netDiagnoService != null) {
-            _netDiagnoService.stopNetDialogsis();
-        }
-    }
 
     public String PostJson() throws IOException {
         String request = "http://3113abe4.ngrok.io/api/report/create";
@@ -272,4 +181,7 @@ public class MessageFragment extends Fragment implements View.OnClickListener,
         return msg;
     }
 
+
 }
+
+

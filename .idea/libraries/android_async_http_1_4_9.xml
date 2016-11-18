@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="android-async-http-1.4.9">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../../project/android-detection/libs/android-async-http-1.4.9.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/android-async-http-1.4.9.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

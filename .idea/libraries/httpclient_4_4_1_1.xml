@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="httpclient-4.4.1.1">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../../project/android-detection/libs/httpclient-4.4.1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/httpclient-4.4.1.1.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

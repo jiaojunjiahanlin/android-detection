@@ -1,4 +1,4 @@
-package com.qiniu.liuhanlin.android_detection;
+package com.test;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

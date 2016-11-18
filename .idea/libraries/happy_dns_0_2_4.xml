@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="happy-dns-0.2.4">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../../project/android-detection/libs/happy-dns-0.2.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/happy-dns-0.2.4.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

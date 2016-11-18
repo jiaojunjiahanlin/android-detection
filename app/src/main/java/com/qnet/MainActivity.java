@@ -1,4 +1,4 @@
-package com.qiniu.liuhanlin.android_detection;
+package com.qnet;
 
 import android.app.Activity;
 import android.graphics.Color;
@@ -10,6 +10,9 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.qiniu.liuhanlin.android_detection.R;
+
 /**
  * 项目的主Activity，所有的Fragment都嵌入在这里。
  *
